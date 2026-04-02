@@ -7,6 +7,7 @@ import (
 	"math/rand/v2"
 	"net/url"
 	"time"
+	"github.com/fatih/color"
 )
 
 type Account struct{
@@ -22,7 +23,7 @@ type accountBonus struct {
 }
 
 func (acc *Account) PrintAcc() {
-	fmt.Printf("Ваш логин: %s \nВаш пароль: %s \nВаша ссылка: %s", acc.login, acc.password, acc.link)
+	color.Cyan("Ваш логин: %s \nВаш пароль: %s \nВаша ссылка: %s", acc.login, acc.password, acc.link)
 } // сделал из функции метод для аккаунта
 
 func (acc *Account) createPassword(n int) {
