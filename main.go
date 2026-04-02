@@ -9,13 +9,12 @@ import (
 
 
 func main()  {
-	//var l account.Account// - могу создать структуру из другого пакета благодаря заглавной букве 
+	files.WriteFile("scidish", "file.txt")
 	acc, err := account.CreateAcc()
 	if err != nil {
 		fmt.Println(err)
 		return 
 	}
-	files.WriteFile()
 
 	acc.PrintAcc()
 }
