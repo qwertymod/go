@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type account struct{
+type Account struct{
 	login 		string
 	password 	string
 	link 		string
@@ -18,11 +18,14 @@ type account struct{
 type accountBonus struct {
 	timeCreate time.Time
 	timeUpdate time.Time
-	account 
+	Account 
 }
 
+func (acc *Account) PrintAcc() {
+	fmt.Printf("Ваш логин: %s \nВаш пароль: %s \nВаша ссылка: %s", acc.login, acc.password, acc.link)
+} // сделал из функции метод для аккаунта
 
-func (acc *account) createPassword(n int) {
+func (acc *Account) createPassword(n int) {
 	symbols := []rune("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890-+*!#@")
 	password := make([]rune,  n)
 	for index := range password{
@@ -32,7 +35,7 @@ func (acc *account) createPassword(n int) {
 	acc.password = string(password)
 }
 
-func createAcc() (*account, error) {
+func CreateAcc() (*Account, error) {
 	var login, password, link string
 
 	login, password, link = getUserAcc()
@@ -46,7 +49,7 @@ func createAcc() (*account, error) {
 		return nil, err
 	}
 
-	acc := &account{
+	acc := &Account{
 		login : login,
 		password : password,
 		link : link,
@@ -71,6 +74,3 @@ func getUserAcc() (login, password, link string) {
 	return login, password, link
 }
 
-func printAcc(acc *account) {
-	fmt.Printf("Ваш логин: %s \nВаш пароль: %s \nВаша ссылка: %s", acc.login, acc.password, acc.link)
-}
