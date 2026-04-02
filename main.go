@@ -1,8 +1,9 @@
 package main
 
 import (
+	"app/account"
+	"app/files"
 	"fmt"
-	"app/account" 
 )
 
 
@@ -14,5 +15,7 @@ func main()  {
 		fmt.Println(err)
 		return 
 	}
+	files.WriteFile()
+
 	acc.PrintAcc()
 }
