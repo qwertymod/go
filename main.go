@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
+	"app/account"
 )
 
 
 
 func main() {
-	acc, err := createAcc()
+	acc, err := account.CreateAcc()
 	if err != nil {
 		fmt.Println(err)
 		return 
 	}
-	printAcc(acc)
+	account.PrintAcc(acc)
 }
