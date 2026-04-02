@@ -9,13 +9,22 @@ import (
 
 
 func main()  {
-	files.ReadFile()
-	files.WriteFile("scidish", "file.txt")
+	createAcc()
+}
+
+
+func createAcc() {
 	acc, err := account.CreateAcc()
 	if err != nil {
 		fmt.Println(err)
 		return 
 	}
 
-	acc.PrintAcc()
+	file, err := acc.ToBytes()
+	if err != nil {
+		fmt.Println("Не удалось преобразовать в JSON")
+	}
+
+	files.WriteFile(file, "data.json")
+
 }

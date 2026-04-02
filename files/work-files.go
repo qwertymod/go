@@ -17,14 +17,14 @@ func ReadFile() {
 	fmt.Println(string(data))
 }
 
-func WriteFile(content string, name string) {
+func WriteFile(content []byte, name string) {
 	file, err := os.Create(name)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	//defer file.Close() // при добавлении новых defer они будут выполняться last in - first out
-	_, err = file.WriteString(content)
+	_, err = file.Write(content)
 	if err != nil {
 		fmt.Println(err)
 		return

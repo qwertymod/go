@@ -1,30 +1,38 @@
 package account
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand/v2"
 	"net/url"
-	"reflect"
 	"time"
 
 	"github.com/fatih/color"
 )
 
 type Account struct{
-	login 		string `json:"login" xml:"test" ` 
-	password 	string `what`
-	link 		string
+	Login 		string `json:"login" xml:"test" ` // Тег — это буквально мост между именем в JSON и именем поля в Go-структуре.
+	Password 	string `json:"password"`
+	Link 		string `json:"link"`
+	TimeCreate time.Time `json:"timeCreate"`
+	TimeUpdate time.Time `json:"timeUpdate"`
 }
 
-type accountBonus struct {
-	timeCreate time.Time
-	timeUpdate time.Time
-	Account 
+
+func (acc *Account) ToBytes() ([]byte, error){
+	file, err := json.Marshal(acc)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return file , nil
 }
+
 
 func (acc *Account) PrintAcc() {
-	color.Cyan("Ваш логин: %s \nВаш пароль: %s \nВаша ссылка: %s", acc.login, acc.password, acc.link)
+	color.Cyan("Ваш логин: %s \nВаш пароль: %s \nВаша ссылка: %s", acc.Login, acc.Password, acc.Link)
 } // сделал из функции метод для аккаунта
 
 func (acc *Account) createPassword(n int) {
@@ -34,7 +42,7 @@ func (acc *Account) createPassword(n int) {
 		password[index] = symbols[rand.IntN(len(symbols))]
 	}
 
-	acc.password = string(password)
+	acc.Password = string(password)
 }
 
 func CreateAcc() (*Account, error) {
@@ -52,13 +60,13 @@ func CreateAcc() (*Account, error) {
 	}
 
 	acc := &Account{
-		login : login,
-		password : password,
-		link : link,
+		Login : login,
+		Password : password,
+		Link : link,
+		TimeCreate : time.Now(),
+		TimeUpdate : time.Now(),
 	}
 
-	field, _ := reflect.TypeOf(acc).Elem().FieldByName("login") // или "password"
-	fmt.Println(string(field.Tag))
 	if password == ""{
 		acc.createPassword(12)
 	}
