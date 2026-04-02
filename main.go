@@ -25,6 +25,6 @@ func createAcc() {
 		fmt.Println("Не удалось преобразовать в JSON")
 	}
 
-	files.WriteFile(file, "data.json")
+	files.WriteFile(file, "data.bin")
 
 }
