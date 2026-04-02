@@ -1,18 +1,19 @@
-package  account
-
+package account
 
 import (
 	"errors"
 	"fmt"
 	"math/rand/v2"
 	"net/url"
+	"reflect"
 	"time"
+
 	"github.com/fatih/color"
 )
 
 type Account struct{
-	login 		string
-	password 	string
+	login 		string `json:"login" xml:"test" ` 
+	password 	string `what`
 	link 		string
 }
 
@@ -56,6 +57,8 @@ func CreateAcc() (*Account, error) {
 		link : link,
 	}
 
+	field, _ := reflect.TypeOf(acc).Elem().FieldByName("login") // или "password"
+	fmt.Println(string(field.Tag))
 	if password == ""{
 		acc.createPassword(12)
 	}
