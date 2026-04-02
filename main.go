@@ -9,6 +9,7 @@ import (
 
 
 func main()  {
+	files.ReadFile()
 	files.WriteFile("scidish", "file.txt")
 	acc, err := account.CreateAcc()
 	if err != nil {
