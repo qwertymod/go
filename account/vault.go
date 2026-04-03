@@ -3,6 +3,7 @@ package account
 import (
 	"app/files"
 	"encoding/json"
+	"strings"
 	"time"
 
 	"github.com/fatih/color"
@@ -14,6 +15,21 @@ type Vault struct {
 	Accounts []Account `json:"accounts"`
 	UpdateTime time.Time `json:"updateTime"`
 }
+
+
+func (vault *Vault) FindAccountByUrl(url string) *[]Account {
+	var acc []Account
+	for _, value := range vault.Accounts {
+		isMatched := strings.Contains(value.Link, url)
+		if isMatched {
+			acc = append(acc, value)
+		}
+	}
+
+	return &acc
+}
+
+
 
 
 type slot struct {

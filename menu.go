@@ -3,6 +3,8 @@ package main
 import (
 	"app/account"
 	"fmt"
+
+	"github.com/fatih/color"
 )
 func getMenu() (userChoise int){
 	fmt.Println(`	1 - создать аккаунт
@@ -15,19 +17,28 @@ func getMenu() (userChoise int){
 }
 
 
+func findAccount(accounts *account.Vault) {
+	var url string
+	fmt.Print("Введите URL для поиска: ")
+	fmt.Scanln(&url)
+	finds := accounts.FindAccountByUrl(url)
+
+	if len(*finds) == 0 {
+		color.Red("Не удалось найти акканут")
+	}
+	
+	for _, acc := range *finds {
+		acc.PrintAcc()
+	}
+}
+
+
 func menu(userChoise int, accounts *account.Vault) error {
 	switch userChoise {
 	case 1:
 		accounts.AddAccount()
 	case 2:
-		var login string
-		fmt.Print("Введите логин: ")
-		fmt.Scanln(&login)
-		for _, value := range accounts.Accounts {
-			if value.Login == login {
-				value.PrintAcc()
-			}
-		}
+		findAccount(accounts)
 	case 3:
 		for _, value := range accounts.Accounts {
 			value.PrintAcc()
