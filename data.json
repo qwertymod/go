@@ -1,1 +1,26 @@
-{"login":"erh","password":"ZCtKNahDghVZ","link":"https://lox.com","timeCreate":"2026-04-03T01:38:25.280637+03:00","timeUpdate":"2026-04-03T01:38:25.280638+03:00"}
+{
+    "accounts": [
+        {
+            "login": "tolya",
+            "password": "d9vOGFluyY06",
+            "link": "https://good.ru",
+            "timeCreate": "2026-04-03T20:43:51.057925+03:00",
+            "timeUpdate": "2026-04-03T20:43:51.057926+03:00"
+        },
+        {
+            "login": "nekit",
+            "password": "nuccuRs@WAkk",
+            "link": "https://bro.com",
+            "timeCreate": "2026-04-03T20:44:40.183995+03:00",
+            "timeUpdate": "2026-04-03T20:44:40.183995+03:00"
+        },
+        {
+            "login": "kot",
+            "password": "yzJ!pQeqCJ24",
+            "link": "https://govno.com",
+            "timeCreate": "2026-04-03T20:46:28.689974+03:00",
+            "timeUpdate": "2026-04-03T20:46:28.689975+03:00"
+        }
+    ],
+    "updateTime": "2026-04-03T20:43:39.103659+03:00"
+}

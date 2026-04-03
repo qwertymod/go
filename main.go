@@ -2,29 +2,26 @@ package main
 
 import (
 	"app/account"
-	"app/files"
 	"fmt"
 )
 
 
 
 func main()  {
-	createAcc()
-}
+	accounts := account.CreateVault()
+	for {
+		userChoise := getMenu()
 
+		if userChoise == 4 {
+			break
+		}
 
-func createAcc() {
-	acc, err := account.CreateAcc()
-	if err != nil {
-		fmt.Println(err)
-		return 
+		err := menu(userChoise, &accounts)
+
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
-	file, err := acc.ToBytes()
-	if err != nil {
-		fmt.Println("Не удалось преобразовать в JSON")
-	}
-
-	files.WriteFile(file, "data.bin")
-
 }
+

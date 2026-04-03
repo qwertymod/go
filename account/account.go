@@ -1,33 +1,20 @@
 package account
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand/v2"
 	"net/url"
 	"time"
-
 	"github.com/fatih/color"
 )
 
-type Account struct{
+type Account struct {
 	Login 		string `json:"login" xml:"test" ` // Тег — это буквально мост между именем в JSON и именем поля в Go-структуре.
 	Password 	string `json:"password"`
 	Link 		string `json:"link"`
 	TimeCreate time.Time `json:"timeCreate"`
 	TimeUpdate time.Time `json:"timeUpdate"`
-}
-
-
-func (acc *Account) ToBytes() ([]byte, error){
-	file, err := json.Marshal(acc)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return file , nil
 }
 
 
@@ -69,6 +56,10 @@ func CreateAcc() (*Account, error) {
 
 	if password == ""{
 		acc.createPassword(12)
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return acc, nil
