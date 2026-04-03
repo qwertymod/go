@@ -46,6 +46,20 @@ func CreateSlot(a, b, c string) (d slot) {
 	return 
 }
 
+func (vault *Vault) DeleteAcc (url string) bool {
+	isDel := false
+	for i := 0 ; i < len(vault.Accounts); {
+		isMatched := strings.Contains(vault.Accounts[i].Link, url)
+		if isMatched {
+			vault.Accounts = append(vault.Accounts[:i], vault.Accounts[i+1:]...)
+			isDel = true
+		} else {
+			i++
+		}
+	}
+
+	return isDel
+}
 
 
 func CreateVault() (*Vault) {
