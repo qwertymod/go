@@ -2,7 +2,6 @@ package main
 
 import (
 	"app/account"
-	"app/files"
 	"fmt"
 )
 func getMenu() (userChoise int){
@@ -19,13 +18,7 @@ func getMenu() (userChoise int){
 func menu(userChoise int, accounts *account.Vault) error {
 	switch userChoise {
 	case 1:
-		acc, err := account.CreateAcc()
-		if err != nil {
-			return err
-		}
-		accounts.Accounts = append(accounts.Accounts, *acc)
-		data, err := accounts.ToBytes()
-		files.WriteFile(data, "data.json")
+		accounts.AddAccount()
 	case 2:
 		var login string
 		fmt.Print("Введите логин: ")
