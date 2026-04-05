@@ -29,24 +29,7 @@ func (vault *Vault) FindAccountByUrl(url string) *[]Account {
 	return &acc
 }
 
-
-
-
-type slot struct {
-	Login string
-	password string
-	Massage []string
-}
-
-func CreateSlot(a, b, c string) (d slot) {
-	d.Login = a
-	d.password = b
-	d.Massage = make([]string, 0, 1)
-	d.Massage = append(d.Massage, c)
-	return 
-}
-
-func (vault *Vault) DeleteAcc (url string) bool {
+func (vault *Vault) DeleteAcc(url string) bool {
 	isDel := false
 	for i := 0 ; i < len(vault.Accounts); {
 		isMatched := strings.Contains(vault.Accounts[i].Link, url)

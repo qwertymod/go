@@ -57,11 +57,7 @@ func CreateAcc() (*Account, error) {
 	if password == ""{
 		acc.createPassword(12)
 	}
-
-	if err != nil {
-		return nil, err
-	}
-
+	
 	return acc, nil
 }
 

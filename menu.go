@@ -63,3 +63,4 @@ func menu(userChoise int, accounts *account.Vault) error {
 
 	return nil
 }
+
