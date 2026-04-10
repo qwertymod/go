@@ -2,14 +2,21 @@ package main
 
 import (
 	"app/account"
+	"app/encrypter"
 	"app/files"
 	"fmt"
+
+	"github.com/joho/godotenv"
 )
 
 
 
 func main()  {
-	accounts := account.CreateVault(files.NewJsonDb("data.json"))
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Не удалось найти env файл")
+	}
+	accounts := account.CreateVault(files.NewJsonDb("data.key"), *encrypter.NewEncrypter())
 	for {
 
 		userChoise := getMenu()

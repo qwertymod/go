@@ -1,6 +1,7 @@
 package account
 
 import (
+	"app/encrypter"
 	"encoding/json"
 	"strings"
 	"time"
@@ -18,6 +19,7 @@ type Vault struct {
 type VaultDb struct {
 	Vault
 	DataB Db
+	enc encrypter.Encrypter
 }
 
 
@@ -59,7 +61,7 @@ func (vault *Vault) DeleteAcc(url string) bool {
 }
 
 
-func CreateVault(dataB Db) (*VaultDb) {
+func CreateVault(dataB Db, enc encrypter.Encrypter) (*VaultDb) {
 	data, err := dataB.Read()
 	if err != nil {
 	return  &VaultDb {
@@ -67,10 +69,12 @@ func CreateVault(dataB Db) (*VaultDb) {
 			Accounts : make([]Account, 0 , 10),
 			UpdateTime : time.Now(),
 		},
+		enc : enc,
 		DataB: dataB,
 		}
 	}
-	var val = VaultDb{DataB: dataB}
+	data = enc.Decrypter(data)
+	var val = VaultDb{DataB: dataB, enc : enc}
 	err = json.Unmarshal(data, &val.Vault)
 	if err != nil {
 		color.Black(err.Error())
@@ -90,6 +94,7 @@ func (vault *VaultDb) AddAccount ()  {
 	if err != nil {
 		color.Red(err.Error())
 	}
+	data = vault.enc.Encrypt(data)
 	vault.DataB.Write(data)
 
 }
