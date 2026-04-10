@@ -2,13 +2,14 @@ package main
 
 import (
 	"app/account"
+	"app/files"
 	"fmt"
 )
 
 
 
 func main()  {
-	accounts := account.CreateVault()
+	accounts := account.CreateVault(files.NewJsonDb("data.json"))
 	for {
 
 		userChoise := getMenu()

@@ -1,26 +1,30 @@
 package account
 
 import (
-	"app/files"
 	"encoding/json"
 	"strings"
 	"time"
-
 	"github.com/fatih/color"
 )
-
-
+type Db interface {
+	Write([]byte)
+	Read()([]byte, error)
+}
 
 type Vault struct {
 	Accounts []Account `json:"accounts"`
 	UpdateTime time.Time `json:"updateTime"`
 }
+type VaultDb struct {
+	Vault
+	DataB Db
+}
 
 
-func (vault *Vault) FindAccountByUrl(url string) *[]Account {
+func (vault *Vault) FindAccount(checker func(Account, string)bool, str string) *[]Account {
 	var acc []Account
 	for _, value := range vault.Accounts {
-		isMatched := strings.Contains(value.Link, url)
+		isMatched := checker(value, str)
 		if isMatched {
 			acc = append(acc, value)
 		}
@@ -28,6 +32,16 @@ func (vault *Vault) FindAccountByUrl(url string) *[]Account {
 
 	return &acc
 }
+
+
+func CheckerUrl(account Account, url string) bool {
+	return strings.Contains(account.Link, url)
+}
+
+func CheckeLogin(account Account, login string) bool {
+	return strings.Contains(account.Login, login)
+}
+
 
 func (vault *Vault) DeleteAcc(url string) bool {
 	isDel := false
@@ -45,24 +59,27 @@ func (vault *Vault) DeleteAcc(url string) bool {
 }
 
 
-func CreateVault() (*Vault) {
-	file, err := files.ReadFile("data.json")
+func CreateVault(dataB Db) (*VaultDb) {
+	data, err := dataB.Read()
 	if err != nil {
-	return  &Vault {
-		Accounts : make([]Account, 0 , 10),
-		UpdateTime : time.Now(),
+	return  &VaultDb {
+		Vault : Vault {
+			Accounts : make([]Account, 0 , 10),
+			UpdateTime : time.Now(),
+		},
+		DataB: dataB,
 		}
 	}
-	var val = Vault{}
-	err = json.Unmarshal(file, &val)
+	var val = VaultDb{DataB: dataB}
+	err = json.Unmarshal(data, &val.Vault)
 	if err != nil {
-		color.Red(err.Error())
+		color.Black(err.Error())
 	}
 	return &val
 }
 
 
-func (vault *Vault) AddAccount ()  {
+func (vault *VaultDb) AddAccount ()  {
 	acc, err := CreateAcc()
 	if err != nil {
 		color.Red(err.Error())
@@ -73,12 +90,13 @@ func (vault *Vault) AddAccount ()  {
 	if err != nil {
 		color.Red(err.Error())
 	}
-	files.WriteFile(data, "data.json")
+	vault.DataB.Write(data)
+
 }
 
 
-func (acc *Vault) ToBytes() ([]byte, error){
-	data, err := json.Marshal(*acc)
+func (vault *Vault) ToBytes() ([]byte, error){
+	data, err := json.Marshal(*vault)
 
 	if err != nil {
 		return nil, err

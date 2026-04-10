@@ -9,6 +9,7 @@ import (
 	"github.com/fatih/color"
 )
 
+
 type Account struct {
 	Login 		string `json:"login" xml:"test" ` // Тег — это буквально мост между именем в JSON и именем поля в Go-структуре.
 	Password 	string `json:"password"`
@@ -34,7 +35,6 @@ func (acc *Account) createPassword(n int) {
 
 func CreateAcc() (*Account, error) {
 	var login, password, link string
-
 	login, password, link = getUserAcc()
 
 	if login == "" {

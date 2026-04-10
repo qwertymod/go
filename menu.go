@@ -4,6 +4,7 @@ import (
 	"app/account"
 	"app/files"
 	"fmt"
+	"strings"
 
 	"github.com/fatih/color"
 )
@@ -22,7 +23,9 @@ func findAccount(accounts *account.Vault) {
 	var url string
 	fmt.Print("Введите URL для поиска: ")
 	fmt.Scanln(&url)
-	finds := accounts.FindAccountByUrl(url)
+	finds := accounts.FindAccount(func(acc account.Account, str string) bool {
+		return strings.Contains(acc.Link, str)
+	}, url)
 
 	if len(*finds) == 0 {
 		color.Red("Не удалось найти акканут")
@@ -46,21 +49,22 @@ func deleteAcc(vault *account.Vault)  {
 	}
 
 	data, _ := vault.ToBytes()
-	files.WriteFile(data, "data.json")
+	db := files.NewJsonDb("data.json")
+	db.Write(data)
 }
 
 
-func menu(userChoise int, accounts *account.Vault) error {
+func menu(userChoise int, accounts *account.VaultDb) error {
 
 	switch userChoise {
 	case 1:
 		accounts.AddAccount()
 	case 2:
-		findAccount(accounts)
+		findAccount(&accounts.Vault)
 	case 3:
-		deleteAcc(accounts)
+		deleteAcc(&accounts.Vault)
 	}
-
+	
 	return nil
 }
 
